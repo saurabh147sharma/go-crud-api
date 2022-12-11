@@ -55,16 +55,21 @@ func Login(c *gin.Context) {
 	// get email and password from body req
 
 	var body struct {
-		Email    string
-		Password string
+		Email    string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
 	}
 
-	if c.Bind(&body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to read the req",
-		})
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// if c.Bind(&body) != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "Failed to read the req",
+	// 	})
+	// 	return
+	// }
 
 	// find user by email id
 	var user models.User
@@ -114,8 +119,27 @@ func Login(c *gin.Context) {
 
 func GetUsers(c *gin.Context) {
 	var users []models.User
-	initializers.DB.Find(&users)
+	initializers.DB.Select("id", "email").Find(&users)
 	c.JSON(http.StatusOK, gin.H{
 		"users": users,
+	})
+}
+
+func GetUser(c *gin.Context) {
+	// get id
+	id := c.Param("id")
+
+	var user models.User
+	initializers.DB.First(&user, id)
+
+	if user.ID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid user name or password",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
 	})
 }

@@ -7,5 +7,5 @@
 5. .env - https://github.com/joho/godotenv
 6. CompileDaemon - To watch the code changes - https://github.com/githubnemo/CompileDaemon
 7. bcrypt - to has the password - ** go get -u golang.org/x/crypto/bcrypt **
-8. JWT - to create JWT token - ** go get -u github.com/golang-jwt/jwt/v4 **
+8. JWT - to create JWT token - ** go get -u github.com/golang-jwt/jwt/v4 ** https://github.com/golang-jwt/jwt
 9. Postman collection - https://www.getpostman.com/collections/813434ab73e9d8435105
