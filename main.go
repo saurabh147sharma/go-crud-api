@@ -19,6 +19,14 @@ func main() {
 	r.POST("/users", controllers.CreateUser)
 	r.GET("/users", middleware.Auth, controllers.GetUsers)
 	r.GET("/users/:id", middleware.Auth, controllers.GetUser)
+
 	r.POST("/login", controllers.Login)
+
+	r.POST("/posts", middleware.Auth, controllers.CreatePost)
+	r.GET("/posts", middleware.Auth, controllers.GetPosts)
+	r.GET("/posts/:id", middleware.Auth, controllers.GetPost)
+	r.PUT("/posts/:id", middleware.Auth, controllers.UpdatePost)
+	r.DELETE("/posts/:id", middleware.Auth, controllers.DeletePost)
+
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
